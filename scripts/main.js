@@ -1,4 +1,4 @@
-import { getWheels, getInterior, getPaint, getTechnology, orderBuilder, render } from "./database.js"
+import { getWheels, getInterior, getPaint, getTechnology, orderBuilder, render, choiceTracker } from "./database.js"
 import { wheelSelect } from "./wheels.js";
 import { techsSelect } from "./technology.js";
 import { interiorSelect } from "./interior.js";
@@ -32,12 +32,22 @@ ${techsSelect()}
 //show words when page loads
 wordsOnThePage();
 
+
+
 document.addEventListener("click", (event)=> {
     if (event.target.id === "submit") {
+        let choiceTrackerInterchange = choiceTracker;
+        if (choiceTrackerInterchange > 3){
         wordsOnThePage();
         orderBuilder();
         document.querySelector("#orders").innerHTML=render();
-    }
+        
+        }
+        else {
+            window.alert("please fill out all choices");
+        }
+        choiceTrackerInterchange=0;
+    } 
 })
 
 document.addEventListener("stateChanged", ()=> {

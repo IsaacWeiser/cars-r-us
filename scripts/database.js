@@ -123,25 +123,32 @@ export const getPaint = () => {
 }
 
 
+//variable that keeps track of your choices and if you have enough choices
+export let choiceTracker =0;
+
 
 // saves the wheel selected
 export const setWheels = (id) => {
-    database.orders.wheelId = id;
+    database.orders.wheelId = id; 
+    choiceTracker++; 
 }
 
 // saves the technology selected
 export const setTechnology = (id) => {
     database.orders.technologyId = id;
+    choiceTracker++; 
 }
 
 //save the interior to order 
 export const setInterior = (id) => {
     database.orders.interiorId = id;
+    choiceTracker++; 
 }
 
 //save the paint option to db
 export const setPaint = (id) => {
     database.orders.paintId =id;
+    choiceTracker++; 
 }
 
 
@@ -174,6 +181,8 @@ console.log(database.permOrders[arrayLen].id);
     
 //notify that the permanent state has changed
 document.dispatchEvent(new CustomEvent("stateChanged"));
+
+choiceTracker=0;
 
 }
 

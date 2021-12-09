@@ -26,8 +26,9 @@ document.addEventListener("change", event => {
     if (event.target.id === "wheelChoice")
     {
         //set the choices value to a db array
-        setWheels(parseInt(event.target.value));
+                setWheels(parseInt(event.target.value));
        
        // window.alert(`You have chosen ${getWheels()[event.target.value].name}. This option costs $${getWheels()[event.target.value].price}`)
+
     }
 })

@@ -20,12 +20,12 @@ export const interiorSelect = () => {
 //event listener provides an alert about which option was selected
 document.addEventListener("change", event => {
     //specify a wheel choice
-    if (event.target.id === "interiorChoice")
+    if (event.target.id === "interiorChoice" )
     {
         //set the value as the interior id
         setInterior(parseInt(event.target.value));
         
         // match the value to the name
         //window.alert(`You have chosen ${getInterior()[event.target.value].name}. This option costs $${getInterior()[event.target.value].price}`)
-    }
+    }  
 })

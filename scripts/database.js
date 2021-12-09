@@ -77,9 +77,9 @@ const database = {
     ],
     paints: [
         {
-            id:1,
-            color:"Silver",
-            price:100
+            id: 1,
+            color: "Silver",
+            price: 100
         },
         {
             id:2,
@@ -98,9 +98,10 @@ const database = {
         }
     ],
     orders: [
-        {
-
-        }
+       
+    ],
+    permOrders: [
+       
     ]
 }
 
@@ -120,3 +121,94 @@ export const getInterior = () => {
 export const getPaint = () => {
     return database.paints.map(paint => ({...paint}));
 }
+
+
+
+// saves the wheel selected
+export const setWheels = (id) => {
+    database.orders.wheelId = id;
+}
+
+// saves the technology selected
+export const setTechnology = (id) => {
+    database.orders.technologyId = id;
+}
+
+//save the interior to order 
+export const setInterior = (id) => {
+    database.orders.interiorId = id;
+}
+
+//save the paint option to db
+export const setPaint = (id) => {
+    database.orders.paintId =id;
+}
+
+
+//set the new order
+export const orderBuilder = () =>{
+    //determine object id
+    
+       const arrayLen = database.permOrders.length;
+       
+
+    const instanceId = arrayLen+1;
+    //database.orders.id = instanceId;
+
+
+    //assign all the transient variables into an object
+    const objData = {...database.orders};
+    // give it an id
+    objData.id =instanceId;
+
+    //get time of order
+    objData.timestamp = Date.now();
+
+    //add new order to db
+    database.permOrders.push(objData);
+
+    //clear state
+    database.orders = {};
+
+console.log(database.permOrders[arrayLen].id);
+    
+//notify that the permanent state has changed
+document.dispatchEvent(new CustomEvent("stateChanged"));
+
+}
+
+
+
+//function to display orders
+export const render = () => {
+    //find length of array
+    const len = (database.permOrders.length)-1;
+    
+    //find prices 
+const findPrice = (arrOfObjs) => {
+    const paintPrice = getPaint().find(paint => paint.id === arrOfObjs.paintId).price;
+    const interiorPrice = getInterior().find(interior => interior.id === arrOfObjs.interiorId).price;
+    const techPrice = getTechnology().find(tech => tech.id === arrOfObjs.technologyId).price;
+    const wheelPrice = getWheels().find(wheel => wheel.id === arrOfObjs.wheelId).price;
+
+    return paintPrice + interiorPrice + techPrice + wheelPrice;
+}
+
+
+
+    //assign formatting
+    let html = "";
+
+    //rewrite array into the format you want
+    html += database.permOrders.map(ord => `<li>Order #${ord.id} costs ${findPrice(ord).toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+    })} and was placed on ${ord.timestamp}</li>`).join(" ")
+
+    console.log(html);
+
+    //html += "</ul>"
+    return html;
+}
+
+
